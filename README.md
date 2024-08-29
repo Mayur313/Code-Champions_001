@@ -17,7 +17,7 @@ This project focuses on performing an in-depth analysis of a E-Commerce dataset 
 - **Data Insights**: Extracted specific insights from different columns required for analysis.
 - **Correlation Analysis**: Identified correlations between different columns to assess attribute dependencies.
 - **Data Visualization**: Visualized key attributes to facilitate data-driven decisions.
-- 
+ 
 ### 29th August 2024:
 
 - **Extracting Insights**: Gaining valuable insights from merged datasets.
