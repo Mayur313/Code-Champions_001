@@ -24,3 +24,9 @@ This project focuses on performing an in-depth analysis of a E-Commerce dataset 
 - **Data Visualization**: Employing appropriate visualization methods to present the data effectively.
 - **Error Rectification**: Fixing errors related to datetime formats.
 - **Streamlit Application**: Initiating the development of an interactive Streamlit app.
+
+### 30th August 2024:
+
+- **Key Insights Choosing**: Extracting Key insights for dashboard building.
+- **Streamlit Application**: Building all dashboard features and making it intractive.
+- **Discussing on main points**: Discussing main key points that how sales will increase with analysis.
