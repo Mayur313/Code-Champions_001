@@ -1,6 +1,6 @@
 import streamlit as st
 
-
+st.set_page_config(layout="wide")
 # Fixed font size for the title
 font_size = 60  # You can change this value to adjust the size
 
