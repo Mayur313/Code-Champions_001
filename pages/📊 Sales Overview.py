@@ -4,6 +4,8 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 
+st.set_page_config(layout="wide")
+
 # Add a logo to the dashboard
 col1, col2 = st.columns([1, 8])
 
