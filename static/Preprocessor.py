@@ -88,10 +88,12 @@ def merge_orders_payments(orders_df, payments_df):
             raise KeyError("One of the datasets is missing the 'order_id' column.")
 
 
+# Cache the data loading function
+@st.cache_data
 def load_geolocation_data():
     df = pd.read_csv('olist_geolocation_dataset.csv')
     df['geolocation_lng'] = pd.to_numeric(df['geolocation_lng'], errors='coerce')
     df['geolocation_lat'] = pd.to_numeric(df['geolocation_lat'], errors='coerce')
     return df
 
-df_geolocation = load_geolocation_data()
+
