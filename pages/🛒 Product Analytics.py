@@ -235,15 +235,20 @@ merged_order_items_sellers = Preprocessor.merge_order_items_sellers(
     datasets['olist_sellers_dataset']
 )
 
-# Now perform the grouping and visualization using Plotly
-with col7:
-    st.subheader("Purchase Behavior by State : Product Sold")
-    
-    # Group orders by state and calculate total order count
-    state_order_counts = merged_order_items_sellers.groupby('seller_state')['order_id'].count().reset_index()
+# Apply filters to merged_order_items_sellers
+filtered_order_items_sellers = merged_order_items_sellers[
+    (merged_order_items_sellers['order_id'].isin(filtered_df['order_id'])) &
+    (merged_order_items_sellers['seller_state'].isin(seller_states))
+]
 
-    # Sort the DataFrame by 'order_id' in ascending order
-    state_order_counts = state_order_counts.sort_values(by='order_id', ascending=True)
+# Group orders by state and calculate total order count
+state_order_counts = filtered_order_items_sellers.groupby('seller_state')['order_id'].count().reset_index()
+
+# Sort the DataFrame by 'order_id' in ascending order
+state_order_counts = state_order_counts.sort_values(by='order_id', ascending=True)
+
+with col7:
+    st.subheader("Purchase Behavior by State: Products Sold")
     
     # Plot a bar chart to show geographic trends using Plotly
     fig3 = px.bar(
@@ -256,6 +261,7 @@ with col7:
     
     fig3.update_layout(xaxis_tickangle=-45)
     st.plotly_chart(fig3, use_container_width=True)
+
 
 with col8:
     st.markdown("""
@@ -334,6 +340,27 @@ payment_by_status = payment_by_status.melt(id_vars='order_status', var_name='pay
 with col11:
     st.subheader('Payment Methods by Order Status')
 
+    # Ensure 'filtered_df' contains relevant columns from merged datasets for filtering
+    # Merging orders and payments with the filters applied
+    df_order_payment = Preprocessor.merge_orders_payments(
+        datasets['olist_orders_dataset'], 
+        datasets['olist_order_payments_dataset']
+    )
+
+    # Apply filters to df_order_payment
+    filtered_order_payment = df_order_payment[
+        (df_order_payment['order_id'].isin(filtered_df['order_id'])) &
+        (df_order_payment['payment_type'].isin(payment_types)) &
+        (df_order_payment['order_status'].isin(selected_order_status))
+    ]
+
+    # Calculate the distribution of payment methods by order status
+    payment_by_status = filtered_order_payment.groupby(['order_status', 'payment_type']).size().unstack().fillna(0)
+    
+    # Reshape the DataFrame for Plotly
+    payment_by_status = payment_by_status.reset_index()
+    payment_by_status = payment_by_status.melt(id_vars='order_status', var_name='payment_type', value_name='number_of_payments')
+
     # Create a Plotly bar chart for payment methods by order status
     fig5 = px.bar(
         payment_by_status,
@@ -350,6 +377,20 @@ with col11:
 
     # Display the plot in Streamlit
     st.plotly_chart(fig5, use_container_width=True)
+
+    st.markdown("""
+    ## Key Insights from Payment Methods by Order Status
+    - ### Cancelled Orders: 
+      A very small number of payments were processed for cancelled orders. This suggests that most customers who start a purchase process generally complete their transactions successfully.
+    
+    ## Strategies to Improve Purchase Rates
+    
+    - ### Promote Underutilized Payment Methods:
+      Consider offering discounts or promotions for customers using less popular payment methods (like debit cards or vouchers) to encourage their adoption and increase overall transaction volume.
+    - ### Order Process Improvement:  
+      Investigate any pain points in the order processing or payment phase to further reduce cancelled or unprocessed orders. Streamlining the checkout experience can significantly improve the conversion rate.
+    """)
+
 
 with col12:
     st.markdown("""
