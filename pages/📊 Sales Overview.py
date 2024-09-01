@@ -183,6 +183,15 @@ if 'geolocation_state' in df_geolocation.columns:
         df_geolocation['geolocation_state'].unique().tolist()
     )
 
+    @st.cache_data
+    def filter_and_downsample_data(states, df, sample_size=100000):
+        # Apply the filter
+        df_filtered = df[df['geolocation_state'].isin(states)]
+        # Downsample if necessary
+        if len(df_filtered) > sample_size:
+            df_filtered = df_filtered.sample(sample_size, random_state=1)
+        return df_filtered
+        
     if selected_geolocation_states:
         
         # Apply the filter
