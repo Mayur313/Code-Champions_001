@@ -168,8 +168,9 @@ with col6:
     fig2 = px.bar(yearly_revenue, x='year', y='payment_value', title="Revenue by Year", labels={"payment_value": "Revenue"})
     st.plotly_chart(fig2, use_container_width=True)
 
-
 # Column 7:
+
+st.subheader('Customers & Sellers Geolocations')
 
 # Load the data
 df_geolocation = Preprocessor.load_geolocation_data()
@@ -177,13 +178,13 @@ df_geolocation = Preprocessor.load_geolocation_data()
 # Ensure the column 'geolocation_state' exists and isn't empty
 if 'geolocation_state' in df_geolocation.columns:
     # Sidebar filter for geolocation states
-    selected_geolocation_states = st.multiselect(
+    selected_geolocation_states = Preprocessor.multiselect(
         "Select Geolocation States",
-        options=df_geolocation['geolocation_state'].unique().tolist(),
-        default=df_geolocation['geolocation_state'].unique().tolist()
+        df_geolocation['geolocation_state'].unique().tolist()
     )
 
     if selected_geolocation_states:
+        
         # Apply the filter
         df_geolocation_filtered = df_geolocation[df_geolocation['geolocation_state'].isin(selected_geolocation_states)]
 
