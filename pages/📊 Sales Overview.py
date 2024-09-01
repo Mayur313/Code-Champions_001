@@ -171,84 +171,84 @@ with col6:
 
 # Column 7:
 
-st.subheader('Customers & Sellers Geolocations')
-# Cache the data loading function
+# st.subheader('Customers & Sellers Geolocations')
+# # Cache the data loading function
 
-@st.cache_data
-def load_geolocation_data():
-    # Load the geolocation dataset and convert columns to numeric
-    df = pd.read_csv('olist_geolocation_dataset.csv')
-    df['geolocation_lng'] = pd.to_numeric(df['geolocation_lng'], errors='coerce')
-    df['geolocation_lat'] = pd.to_numeric(df['geolocation_lat'], errors='coerce')
-    return df
+# @st.cache_data
+# def load_geolocation_data():
+#     # Load the geolocation dataset and convert columns to numeric
+#     df = pd.read_csv('olist_geolocation_dataset.csv')
+#     df['geolocation_lng'] = pd.to_numeric(df['geolocation_lng'], errors='coerce')
+#     df['geolocation_lat'] = pd.to_numeric(df['geolocation_lat'], errors='coerce')
+#     return df
 
-# Load the data
-df_geolocation = load_geolocation_data()
+# # Load the data
+# df_geolocation = load_geolocation_data()
 
-# Ensure the column exists before proceeding
-if 'geolocation_state' not in df_geolocation.columns:
-    st.error("The 'geolocation_state' column is missing in the dataset.")
-else:
-    # Continue with filtering and plotting
-    selected_geolocation_states = Preprocessor.multiselect(
-        "Select Geolocation State",
-        df_geolocation['geolocation_state'].unique().tolist()
-    )
-    # Filter and plot as required
+# # Ensure the column exists before proceeding
+# if 'geolocation_state' not in df_geolocation.columns:
+#     st.error("The 'geolocation_state' column is missing in the dataset.")
+# else:
+#     # Continue with filtering and plotting
+#     selected_geolocation_states = Preprocessor.multiselect(
+#         "Select Geolocation State",
+#         df_geolocation['geolocation_state'].unique().tolist()
+#     )
+#     # Filter and plot as required
 
 
-# Apply the filter based on selected states
-if selected_geolocation_states:
-    # Reset index to avoid reindexing issue
-    df_geolocation = df_geolocation.reset_index(drop=True)
+# # Apply the filter based on selected states
+# if selected_geolocation_states:
+#     # Reset index to avoid reindexing issue
+#     df_geolocation = df_geolocation.reset_index(drop=True)
     
-    # Apply the filter
-    df_geolocation = df_geolocation[df_geolocation['geolocation_state'].isin(selected_geolocation_states)]
+#     # Apply the filter
+#     df_geolocation = df_geolocation[df_geolocation['geolocation_state'].isin(selected_geolocation_states)]
 
-# Downsample the dataset to avoid overloading the plot
-if len(df_geolocation) > 100000:
-    df_geolocation = df_geolocation.sample(100000)
+# # Downsample the dataset to avoid overloading the plot
+# if len(df_geolocation) > 100000:
+#     df_geolocation = df_geolocation.sample(100000)
 
-# Ensure there is data to plot after filtering
-if not df_geolocation.empty:
-    # Create scatter plot using Plotly
-    fig_geolocation = px.scatter(
-        df_geolocation,
-        x='geolocation_lng',
-        y='geolocation_lat',
-        color='geolocation_state',
-        title='Geolocation of Customers and Sellers',
-        labels={
-            'geolocation_lng': 'Longitude',
-            'geolocation_lat': 'Latitude',
-            'geolocation_state': 'State'
-        },
-        color_continuous_scale='Spectral'
-    )
+# # Ensure there is data to plot after filtering
+# if not df_geolocation.empty:
+#     # Create scatter plot using Plotly
+#     fig_geolocation = px.scatter(
+#         df_geolocation,
+#         x='geolocation_lng',
+#         y='geolocation_lat',
+#         color='geolocation_state',
+#         title='Geolocation of Customers and Sellers',
+#         labels={
+#             'geolocation_lng': 'Longitude',
+#             'geolocation_lat': 'Latitude',
+#             'geolocation_state': 'State'
+#         },
+#         color_continuous_scale='Spectral'
+#     )
 
-    # Customize the layout
-    fig_geolocation.update_layout(
-        xaxis_title="Longitude",
-        yaxis_title="Latitude",
-        title_x=0.5,
-        coloraxis_colorbar=dict(title="State"),
-        height=500
-    )
+#     # Customize the layout
+#     fig_geolocation.update_layout(
+#         xaxis_title="Longitude",
+#         yaxis_title="Latitude",
+#         title_x=0.5,
+#         coloraxis_colorbar=dict(title="State"),
+#         height=500
+#     )
 
-    # Display the plot in Streamlit
-    st.plotly_chart(fig_geolocation, use_container_width=True)
-else:
-    st.warning("No data available for the selected states.")
+#     # Display the plot in Streamlit
+#     st.plotly_chart(fig_geolocation, use_container_width=True)
+# else:
+#     st.warning("No data available for the selected states.")
 
-st.markdown("""
-    ## Logic to Increase Purchases:
-    - ##### **Segmented Campaigns** : Develop segmented marketing campaigns that address specific regional needs and preferences.
-    - ##### **Customer Feedback** : Collect and analyze feedback from different regions to refine products and services.
-    - ##### **Strategic Investment** : Invest in regions showing promising growth potential or underserved markets.
-    """)
+# st.markdown("""
+#     ## Logic to Increase Purchases:
+#     - ##### **Segmented Campaigns** : Develop segmented marketing campaigns that address specific regional needs and preferences.
+#     - ##### **Customer Feedback** : Collect and analyze feedback from different regions to refine products and services.
+#     - ##### **Strategic Investment** : Invest in regions showing promising growth potential or underserved markets.
+#     """)
 
-# Add a horizontal line
-st.markdown("<hr>", unsafe_allow_html=True)
+# # Add a horizontal line
+# st.markdown("<hr>", unsafe_allow_html=True)
 
 # Column 8 :
 
