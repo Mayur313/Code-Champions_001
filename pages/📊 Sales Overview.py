@@ -136,20 +136,17 @@ st.markdown("<hr>", unsafe_allow_html=True)
 col5, col6 = st.columns(2)
 
 col7, col8 = st.columns(2)
-st.write("")
-st.write("")
 
 col9, col10 = st.columns(2)
-st.write("")
-st.write("")
+
 
 col11, col12 = st.columns(2)
-st.write("")
-st.write("")
+
 
 col13, col14 = st.columns(2)
-
 st.write("")
+# Add a horizontal line
+st.markdown("<hr>", unsafe_allow_html=True)
 
 # Column 5: Monthly Orders Line Chart
 with col5:
@@ -171,6 +168,8 @@ with col6:
     fig2 = px.bar(yearly_revenue, x='year', y='payment_value', title="Revenue by Year", labels={"payment_value": "Revenue"})
     st.plotly_chart(fig2, use_container_width=True)
 
+
+st.subheader("Purchase Behavior by State : Product Sold")
 # Cache the data loading function
 @st.cache_data
 def load_geolocation_data():
