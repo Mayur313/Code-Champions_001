@@ -50,7 +50,7 @@ st.sidebar.header("Filter Options")
 years = Preprocessor.multiselect("Select Year", datasets['olist_orders_dataset']['year'].unique().tolist())
 
 # Sidebar: Month Filter with Select/Deselect All
-months = Preprocessor.multiselect("Select Month", datasets['olist_orders_dataset']['month'].unique().tolist())
+months = Preprocessor.multiselect("Select Month", sorted(datasets['olist_orders_dataset']['month'].unique().tolist()))
 
 # Sidebar: Product Category Filter with Select/Deselect All
 product_categories = Preprocessor.multiselect(
