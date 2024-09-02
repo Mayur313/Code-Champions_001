@@ -97,3 +97,76 @@ def load_geolocation_data():
     return df
 
 
+#.......................................................................................
+
+@st.cache_data
+def load_data():
+    """Loads and merges geolocation and seller datasets."""
+    geolocation_df = pd.read_csv('olist_geolocation_dataset.csv')
+    sellers_df = pd.read_csv('olist_sellers_dataset.csv')
+    merged_df = pd.merge(
+        sellers_df, 
+        geolocation_df, 
+        left_on='seller_zip_code_prefix', 
+        right_on='geolocation_zip_code_prefix',
+        how='left'
+    )
+    # Drop rows with missing latitude/longitude
+    merged_df = merged_df.dropna(subset=['geolocation_lat', 'geolocation_lng'])
+    return merged_df
+
+@st.cache_data
+def filter_data(merged_df, state_filter, city_filter):
+    """Filters the dataset based on selected states and cities."""
+    return merged_df[(merged_df['seller_state'].isin(state_filter)) & 
+                     (merged_df['seller_city'].isin(city_filter))]
+
+@st.cache_data
+def get_map_data(filtered_df):
+    """Prepares the map data (latitude and longitude only) for visualization."""
+    return filtered_df[['geolocation_lat', 'geolocation_lng']].rename(columns={
+        'geolocation_lat': 'latitude', 
+        'geolocation_lng': 'longitude'
+    })
+
+import pandas as pd
+import streamlit as st
+
+@st.cache_data
+def load_data():
+    """Load and merge geolocation and seller datasets."""
+    # Load the datasets
+    geolocation_df = pd.read_csv('olist_geolocation_dataset.csv')
+    sellers_df = pd.read_csv('olist_sellers_dataset.csv')
+    
+    # Merge datasets on zip code prefix
+    merged_df = pd.merge(
+        sellers_df, 
+        geolocation_df, 
+        left_on='seller_zip_code_prefix', 
+        right_on='geolocation_zip_code_prefix',
+        how='left'
+    )
+    
+    # Drop rows with missing latitude/longitude
+    merged_df = merged_df.dropna(subset=['geolocation_lat', 'geolocation_lng'])
+    
+    return merged_df
+
+@st.cache_data
+def filter_data(merged_df, state_filter, city_filter):
+    """Filter the dataset based on selected states and cities."""
+    filtered_df = merged_df[
+        (merged_df['seller_state'].isin(state_filter)) &
+        (merged_df['seller_city'].isin(city_filter))
+    ]
+    return filtered_df
+
+@st.cache_data
+def get_map_data(filtered_df):
+    """Prepare the map data with latitude and longitude."""
+    map_data = filtered_df[['geolocation_lat', 'geolocation_lng']].rename(columns={
+        'geolocation_lat': 'latitude',
+        'geolocation_lng': 'longitude'
+    })
+    return map_data
