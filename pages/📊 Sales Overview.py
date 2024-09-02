@@ -82,7 +82,7 @@ filtered_df = datasets['olist_orders_dataset'][
     (datasets['olist_orders_dataset']['year'].isin(years)) &
     (datasets['olist_orders_dataset']['month'].isin(months)) &
     (datasets['olist_products_dataset']['product_category_name'].isin(product_categories)) &
-    (datasets['olist_sellers_dataset']['seller_state'].isin(seller_states)) &
+    # (datasets['olist_sellers_dataset']['seller_state'].isin(seller_states)) &
     (datasets['olist_order_payments_dataset']['payment_type'].isin(payment_types)) &
     (datasets['olist_orders_dataset']['order_status'].isin(selected_order_status))
 ]
