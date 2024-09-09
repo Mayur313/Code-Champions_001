@@ -172,69 +172,98 @@ with col6:
 
 st.subheader('The Distribution of Sellers')
 
+# # Load the data
+# df_geolocation = Preprocessor.load_geolocation_data()
+
+# # Ensure the column 'geolocation_state' exists and isn't empty
+# if 'geolocation_state' in df_geolocation.columns:
+#     # Sidebar filter for geolocation states
+#     selected_geolocation_states = Preprocessor.multiselect(
+#         "Select Geolocation States",
+#         df_geolocation['geolocation_state'].unique().tolist()
+#     )
+
+#     @st.cache_data
+#     def filter_and_downsample_data(states, df, sample_size=100000):
+#         # Apply the filter
+#         df_filtered = df[df['geolocation_state'].isin(states)]
+#         # Downsample if necessary
+#         if len(df_filtered) > sample_size:
+#             df_filtered = df_filtered.sample(sample_size, random_state=1)
+#         return df_filtered
+        
+#     if selected_geolocation_states:
+        
+#         # Apply the filter
+#         df_geolocation_filtered = df_geolocation[df_geolocation['geolocation_state'].isin(selected_geolocation_states)]
+
+#         # Downsample if necessary
+#         if len(df_geolocation_filtered) > 100000:
+#             df_geolocation_filtered = df_geolocation_filtered.sample(100000, random_state=1)
+
+#         # Ensure there is data to plot
+#         if not df_geolocation_filtered.empty:
+#             # Create scatter plot using Plotly
+#             fig_geolocation = px.scatter(
+#                 df_geolocation_filtered,
+#                 x='geolocation_lng',
+#                 y='geolocation_lat',
+#                 color='geolocation_state',
+#                 title='Geolocation of Customers and Sellers',
+#                 labels={
+#                     'geolocation_lng': 'Longitude',
+#                     'geolocation_lat': 'Latitude',
+#                     'geolocation_state': 'State'
+#                 },
+#                 color_continuous_scale='Spectral'
+#             )
+
+#             # Customize the layout
+#             fig_geolocation.update_layout(
+#                 xaxis_title="Longitude",
+#                 yaxis_title="Latitude",
+#                 title_x=0.5,
+#                 coloraxis_colorbar=dict(title="State"),
+#                 height=500
+#             )
+
+#             # Display the plot in Streamlit
+#             st.plotly_chart(fig_geolocation, use_container_width=True)
+#         else:
+#             st.warning("No data available for the selected states.")
+#     else:
+#         st.warning("Please select at least one state.")
+# else:
+#     st.error("The 'geolocation_state' column is missing in the dataset.")
+
 # Load the data
-df_geolocation = Preprocessor.load_geolocation_data()
+merged_df = Preprocessor.load_data()
 
-# Ensure the column 'geolocation_state' exists and isn't empty
-if 'geolocation_state' in df_geolocation.columns:
-    # Sidebar filter for geolocation states
-    selected_geolocation_states = Preprocessor.multiselect(
-        "Select Geolocation States",
-        df_geolocation['geolocation_state'].unique().tolist()
-    )
+# Sidebar filters for state and city
+state_filter = st.sidebar.multiselect(
+    "Select State(s)", merged_df['seller_state'].unique()
+)
+select_all_states = st.sidebar.checkbox("Select All States", value=True)
+if select_all_states:
+    state_filter = merged_df['seller_state'].unique()
 
-    @st.cache_data
-    def filter_and_downsample_data(states, df, sample_size=100000):
-        # Apply the filter
-        df_filtered = df[df['geolocation_state'].isin(states)]
-        # Downsample if necessary
-        if len(df_filtered) > sample_size:
-            df_filtered = df_filtered.sample(sample_size, random_state=1)
-        return df_filtered
-        
-    if selected_geolocation_states:
-        
-        # Apply the filter
-        df_geolocation_filtered = df_geolocation[df_geolocation['geolocation_state'].isin(selected_geolocation_states)]
+city_filter = st.sidebar.multiselect(
+    "Select City/Cities", merged_df['seller_city'].unique()
+)
+select_all_cities = st.sidebar.checkbox("Select All Cities", value=True)
+if select_all_cities:
+    city_filter = merged_df['seller_city'].unique()
 
-        # Downsample if necessary
-        if len(df_geolocation_filtered) > 100000:
-            df_geolocation_filtered = df_geolocation_filtered.sample(100000, random_state=1)
+# Filter the data
+filtered_df = Preprocessor.filter_data(merged_df, state_filter, city_filter)
 
-        # Ensure there is data to plot
-        if not df_geolocation_filtered.empty:
-            # Create scatter plot using Plotly
-            fig_geolocation = px.scatter(
-                df_geolocation_filtered,
-                x='geolocation_lng',
-                y='geolocation_lat',
-                color='geolocation_state',
-                title='Geolocation of Customers and Sellers',
-                labels={
-                    'geolocation_lng': 'Longitude',
-                    'geolocation_lat': 'Latitude',
-                    'geolocation_state': 'State'
-                },
-                color_continuous_scale='Spectral'
-            )
+# Get map data and display the map
+map_data = Preprocessor.get_map_data(filtered_df)
+st.map(map_data)
 
-            # Customize the layout
-            fig_geolocation.update_layout(
-                xaxis_title="Longitude",
-                yaxis_title="Latitude",
-                title_x=0.5,
-                coloraxis_colorbar=dict(title="State"),
-                height=500
-            )
+# Optionally, show the filtered data table
+st.dataframe(filtered_df[['seller_id', 'seller_city', 'seller_state']])
 
-            # Display the plot in Streamlit
-            st.plotly_chart(fig_geolocation, use_container_width=True)
-        else:
-            st.warning("No data available for the selected states.")
-    else:
-        st.warning("Please select at least one state.")
-else:
-    st.error("The 'geolocation_state' column is missing in the dataset.")
 
 st.markdown("""
     ## Logic to Increase Purchases:
