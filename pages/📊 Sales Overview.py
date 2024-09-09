@@ -213,47 +213,47 @@ st.markdown("""
 # Add a horizontal line
 st.markdown("<hr>", unsafe_allow_html=True)
 
-# # Column 8 :
+# Column 8 :
 
-# # Assuming 'order_items' is already loaded as a DataFrame
-# order_items = pd.read_csv('olist_order_items_dataset.csv')
+# Assuming 'order_items' is already loaded as a DataFrame
+order_items = pd.read_csv('olist_order_items_dataset.csv')
 
-# # Calculate the number of products sold per seller
-# products_per_seller = order_items.groupby('seller_id')['order_item_id'].count().reset_index()
-# products_per_seller.columns = ['Seller ID', 'Number of Products Sold']
+# Calculate the number of products sold per seller
+products_per_seller = order_items.groupby('seller_id')['order_item_id'].count().reset_index()
+products_per_seller.columns = ['Seller ID', 'Number of Products Sold']
 
-# # Plot the top 20 sellers by the number of products sold
-# top_sellers = products_per_seller.sort_values(by='Number of Products Sold', ascending=False).head(20)
+# Plot the top 20 sellers by the number of products sold
+top_sellers = products_per_seller.sort_values(by='Number of Products Sold', ascending=False).head(20)
 
-# # Create a Plotly bar chart
-# fig = px.bar(
-#     top_sellers,
-#     x='Number of Products Sold',
-#     y='Seller ID',
-#     orientation='h',  # Horizontal bar chart
-#     title='Top 20 Sellers by Number of Products Sold',
-#     color='Number of Products Sold',
-#     color_continuous_scale='inferno'
-# )
+# Create a Plotly bar chart
+fig = px.bar(
+    top_sellers,
+    x='Number of Products Sold',
+    y='Seller ID',
+    orientation='h',  # Horizontal bar chart
+    title='Top 20 Sellers by Number of Products Sold',
+    color='Number of Products Sold',
+    color_continuous_scale='inferno'
+)
 
-# # Customize the layout for better presentation
-# fig.update_layout(
-#     xaxis_title="Number of Products Sold",
-#     yaxis_title="Seller ID",
-#     yaxis=dict(autorange="reversed"),  # Reverse y-axis to show top sellers at the top
-#     template="plotly_white"
-# )
+# Customize the layout for better presentation
+fig.update_layout(
+    xaxis_title="Number of Products Sold",
+    yaxis_title="Seller ID",
+    yaxis=dict(autorange="reversed"),  # Reverse y-axis to show top sellers at the top
+    template="plotly_white"
+)
 
-# # Streamlit container to display the chart
-# st.container()
-# st.subheader("Top 20 Sellers by Number of Products Sold")
-# st.plotly_chart(fig, use_container_width=True)
+# Streamlit container to display the chart
+st.container()
+st.subheader("Top 20 Sellers by Number of Products Sold")
+st.plotly_chart(fig, use_container_width=True)
 
-# st.markdown("""
-#     ### This plot identifies the top-performing sellers, which can be beneficial for partnership or inventory strategies.
-#     """)
+st.markdown("""
+    ### This plot identifies the top-performing sellers, which can be beneficial for partnership or inventory strategies.
+    """)
 
-# # Add a horizontal line
-# st.markdown("<hr>", unsafe_allow_html=True)
+# Add a horizontal line
+st.markdown("<hr>", unsafe_allow_html=True)
 
 ##########################################################################
