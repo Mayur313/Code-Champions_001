@@ -29,9 +29,12 @@ This project focuses on performing an in-depth analysis of a E-Commerce dataset 
 - **Streamlit Application**: Initiating the development of an interactive Streamlit app.
 
 
-
 ### 30th August 2024:
 
 - **Key Insights Choosing**: Extracting Key insights for dashboard building.
+
+
+## Description:
+Created an interactive dashboard in streamlit to analyse the dataset of an E Commerce website in order to get valuable insights and plan statergies accordingly. 
 - **Streamlit Application**: Building all dashboard features and making it intractive.
 - **Discussing on main points**: Discussing main key points that how sales will increase with analysis.
