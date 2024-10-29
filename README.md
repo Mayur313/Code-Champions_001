@@ -35,6 +35,6 @@ This project focuses on performing an in-depth analysis of a E-Commerce dataset 
 
 
 ## Description:
-Created an interactive dashboard in streamlit to analyse the dataset of an E Commerce website in order to get valuable insights and plan statergies accordingly. 
+Created an interactive dashboard on streamlit to analyse the dataset of an E Commerce website in order to get valuable insights and plan statergies accordingly. 
 - **Streamlit Application**: Building all dashboard features and making it intractive.
 - **Discussing on main points**: Discussing main key points that how sales will increase with analysis.
