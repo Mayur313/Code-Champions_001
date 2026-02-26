@@ -3,7 +3,7 @@
 - ### Our Website Link - https://code-champions001-4dvnvwmyyxp2qvsqwurplk.streamlit.app/
 
 ## Project Overview
-This project focuses on performing an in-depth analysis of a E-Commerce dataset and creating visualizations. It also involves developing an interactive dashboard using Streamlit and deploying it on Streamlit Cloud. 
+This project focuses on performing an in-depth analysis of a E-Commerce dataset and creating visualizations. It also involves developing an interactive dashboard using Streamlit and deploying it on Streamlit Cloud.. 
 
 ## Key Dates and Activities:
 
@@ -38,3 +38,4 @@ This project focuses on performing an in-depth analysis of a E-Commerce dataset 
 Created an interactive dashboard on streamlit to analyse the dataset of an E Commerce website in order to get valuable insights and plan statergies accordingly. 
 - **Streamlit Application**: Building all dashboard features and making it intractive.
 - **Discussing on main points**: Discussing main key points that how sales will increase with analysis.
+
